@@ -1,5 +1,5 @@
 <h1>Cloud Client Area</h1>
-<a href="cloud-client-area.vercel.app" target="_blank">🔗Project Link</a>
+<a href="https://cloud-client-area.vercel.app" target="_blank">🔗Project Link</a>
 
 <p>In development 🚧</p>
 
