@@ -1,0 +1,7 @@
+:root {
+    --font : 'Montserrat'
+}
+
+* {margin:0; padding:0; box-sizing:border-box;}
+body {height:100vh; font-family:var(--font), sans-serif;}
+input, textarea, select, button, span {font-family:var(--font), sans-serif; outline:none;}

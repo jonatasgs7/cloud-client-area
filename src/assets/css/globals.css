@@ -1,0 +1,8 @@
+::selection {background-color:#008993; color:#fff; text-shadow:none;}
+::-moz-selection {background-color:#008993; color:#fff; text-shadow:none;}
+
+.container {width:100%; margin-left:auto; margin-right:auto; padding-left:15px; padding-right:15px;}
+
+@media (min-width:768px){
+    .container {width:100%; max-width:1080px; padding:0;}
+}
