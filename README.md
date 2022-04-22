@@ -1,6 +1,7 @@
 <h1>Cloud Client Area</h1>
+<a href="cloud-client-area.vercel.app" target="_blank">🔗Project Link</a>
 
-<p>Project in development 🚧</p>
+<p>In development 🚧</p>
 
 <h3>Used Technologies:</h3>
 <ul>
