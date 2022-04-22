@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { css } from '@stitches/react'
-import {FaTrashAlt} from "react-icons/fa" 
+import {FaTrashAlt} from "react-icons/fa"
+import Modal from './Modal' 
 
 const table = css({
     width:'100%', padding:'15px', border:'1px solid #D9E1E7CC', borderRadius:'7px', marginTop:'30px'
@@ -67,6 +68,25 @@ const buttonTableTrash = css({
     '&:hover': {color:'#ea3a3dcc'}
 })
 
+const formContainer = css({
+    margin:'10px 0'
+})
+
+const formCampo = css({
+    width:'100%', minHeight:'60px', border:'2px solid #D9E1E7', borderRadius:'7px', textIndent:'10px', fontSize:'15px'
+})
+
+const formBotaoCadastrar = css({
+    width:'100%', minHeight:'60px', borderRadius:'7px', backgroundColor:'#1AD598', border:0, fontSize:'18px', color:'#fff', textTransform:'uppercase', fontWeight:'bold', cursor:'pointer',
+    '&:hover': {
+        backgroundColor:'#1AD598dd'
+    }
+})
+
+const tituloModal = css({
+    textAlign:'center', textTransform:'uppercase', marginBottom:'30px'
+})
+
 export default function Table(){
 
     const [list, setList] = useState([
@@ -85,17 +105,18 @@ export default function Table(){
         }
     ])
 
-    // const totalItemsList = list.length
+    const [isModalMailOpen, setIsModalMailOpen] = useState(false)
+    const [isModalResetOpen, setIsModalResetOpen] = useState(false)
+
 
     const listUsers = () => {
         setList([...list])
     }
 
-    const deleteUser = (id) => {
-        let filtered = list.filter( listwow => {
-            listwow.id !== id 
-        })
-        setList(filtered)
+    function deleteUser(id){
+        const newList = [...list]
+        newList.splice(id, 1)
+        setList(newList)
     }
     
 
@@ -137,8 +158,8 @@ export default function Table(){
 
                 <div className="tableItems">
             
-                    { list.map(itemList => 
-                        <div className={tableItem()} id={itemList.id} key={itemList.id}>
+                    { list.map( (itemList, index) => 
+                        <div className={tableItem()} id={index} key={index}>
 
                             <div className={tableHeaderItem()}>
                                 <input type="checkbox" value={itemList.id} />
@@ -153,15 +174,53 @@ export default function Table(){
                             </div>
 
                             <div className={tableHeaderItemEmail()}>
-                                {itemList.email} <button className={buttonTable({variant:'buttonTableBlue'})}>Mudar e-mail</button>
+                                {itemList.email} <button onClick={(index) => setIsModalMailOpen(true)} className={buttonTable({variant:'buttonTableBlue'})}>Mudar e-mail</button>
                             </div>
 
-                            <div className={tableHeaderItem()}>
-                                <button className={buttonTable({variant:'buttonTableYellow'})}>Resetar</button>
-                            </div>
+                            {isModalMailOpen ? (
+                            <Modal onClose={ () => setIsModalMailOpen(false) }>
+                                <div className="modalConteudo">
+                                    <h2 className={tituloModal()}>Insira o endereço de e-mail</h2>
+                                    <p>{itemList.codigo}</p>
+                                    <form id="formChangeMail" className="formChangeMail">
+                                        
+                                        <div className={formContainer()}>
+                                            <input type="email" name="changeEmail" id="changeEmail" className={formCampo()} maxLength="40" placeholder="E-mail*" required />
+                                        </div>
+
+                                        <div className={formContainer()}>
+                                            <button type="submit" className={formBotaoCadastrar()}>Ok</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </Modal>
+                            ) : null}
 
                             <div className={tableHeaderItem()}>
-                                <button className={buttonTableTrash()} onClick={() => deleteUser(itemList.id)}><FaTrashAlt /></button>
+                                <button onClick={() => setIsModalResetOpen(true)} className={buttonTable({variant:'buttonTableYellow'})}>Resetar</button>
+                            </div>
+
+                            {isModalResetOpen ? (
+                            <Modal onClose={ () => setIsModalResetOpen(false) }>
+                                <div className="modalConteudo">
+                                    <h2 className={tituloModal()}>Resetar senha dos usuários</h2>
+                                    <h3>{itemList.codigo}</h3>
+                                    <form id="formResetPassword" className="formResetPassword">
+                                        
+                                        <div className={formContainer()}>
+                                            <input type="password" name="resetPassword" id="resetPassword" className={formCampo()} placeholder="Senha*" required />
+                                        </div>
+
+                                        <div className={formContainer()}>
+                                            <button type="submit" className={formBotaoCadastrar()}>Resetar senha</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </Modal>
+                            ) : null}
+
+                            <div className={tableHeaderItem()}>
+                                <button className={buttonTableTrash()} onClick={() => deleteUser(index)}><FaTrashAlt /></button>
                             </div>
 
                         </div>
